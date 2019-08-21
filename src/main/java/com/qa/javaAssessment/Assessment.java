@@ -1,5 +1,7 @@
 ﻿package com.qa.javaAssessment;
 
+import java.util.ArrayList;
+
 public class Assessment {
 
 	// Given a string, return a string where
@@ -32,18 +34,26 @@ public class Assessment {
 	// getBert("xxbeRTyy") ==> ""
 
 	public String getBert(String input) {
+		input = input.toLowerCase();
 		String output = "";
-		int count = 0;
-		for (int i = 0; i < (input.length() - 4); i++) {
-			if (input.substring(i, i + 4) == "bert" && count == 0)  {
-				count += 1;
-				while (input.substring(i + 4, i + 8) != "bert") {
-					output = input.substring(i + 4, i + 5) + output;
+		String words = "";
+
+		for (int i = 0; i < (input.length() - 3); i++) {
+			if (input.substring(i, i + 4).equals("bert")) {
+
+				for (int j = i + 4; j < input.length() - 3; j++) {
+					if (input.substring(j, j + 4).equals("bert")) {
+						words = input.substring(i + 4, j);
+					}
+
 				}
 			}
 
 		}
+		for (int w = 0; w < words.length(); w++) {
+			output = words.substring(w, w + 1) + output;
 
+		}
 		return output;
 	}
 
@@ -65,22 +75,19 @@ public class Assessment {
 			} else {
 				return false;
 			}
-		}
-		else if (b > a && b > c) {
+		} else if (b > a && b > c) {
 			if (b - a == a - c || b - c == c - a) {
 				return true;
 			} else {
 				return false;
 			}
-		}
-		else if (c > a && c > b) {
+		} else if (c > a && c > b) {
 			if (c - a == a - b || c - b == b - a) {
 				return true;
 			} else {
 				return false;
 			}
-		} 
-		else {
+		} else {
 
 			return false;
 		}
@@ -101,7 +108,8 @@ public class Assessment {
 		int halfString = input.length() / 2;
 		int halfInt = a / 2;
 		if (input.length() % 2 == 1) {
-			output = input.substring(0, halfString - halfInt) + input.substring(halfString + halfInt + 1, input.length());
+			output = input.substring(0, halfString - halfInt)
+					+ input.substring(halfString + halfInt + 1, input.length());
 		} else if (input.length() % 2 == 0) {
 			output = input.substring(0, halfString - halfInt) + input.substring(halfString + halfInt, input.length());
 		}
@@ -117,10 +125,26 @@ public class Assessment {
 	// superBlock("") ==> 0
 
 	public int superBlock(String input) {
+		input = input +" ";
+		int count = 1;
+		int result  = 0;
+		ArrayList<Integer> totals = new ArrayList<Integer>();
+
+		for (int i = 0; i < input.length() - 1; i++) {
+			if (input.substring(i, i + 1).equals(input.substring(i + 1, i + 2))) {
+				count += 1;
+			} else {
+				totals.add(count);
+				count = 1;
+			}
+		}
 		
-
-		return -1;
-
+		for (Integer j : totals) {
+			if (result<j) {
+				result =j;	
+			}
+		}
+		return(result);
 	}
 
 	// given a string - return the number of times "am" appears in the String
@@ -133,19 +157,12 @@ public class Assessment {
 	// amISearch("I have been in Amsterdam") ==> 0
 
 	public int amISearch(String arg1) {
+		arg1 = " " + arg1.toLowerCase()+" ";
 		int count = 0;
-		for (int i = 0; i < arg1.length()-2; i++) {
-			
-			if (arg1.substring(i, i + 2) == "am") {
-				if (arg1.substring(i - 1, i) == " " && arg1.substring(i + 2, i + 3) == " ") {
-					count += 1;
-				}
-
-			} else if (arg1.substring(i, i + 2) == "Am") {
-				if (arg1.substring(i + 2, i + 3) == " ") {
-					count += 1;
-				}
-			}
+		for (int i = 0; i < arg1.length() - 3; i++) {
+			if (arg1.substring(i, i + 4).equals(" am ")) {
+				count += 1;
+			}	
 		}
 		return count;
 
@@ -188,10 +205,25 @@ public class Assessment {
 
 	public int largest(String arg1) {
 		
-		for (int i = 0; i < arg1.length(); i++) {
-			if (arg1.substring(i))
+		String[] nums = arg1.split(" ");
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		int k = 0;
+		int result = 0;
+
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = 0; j < nums[i].length(); j++) {
+				k += Integer.parseInt((nums[i].substring(j, j + 1)));
+			}
+			values.add(k);
+			k = 0;
 		}
-		
-		return -1;
+		for (Integer j : values) {
+			if (result < j) {
+				result = j;
+			}
+		}
+		return(result);
+
+			
 	}
 }
